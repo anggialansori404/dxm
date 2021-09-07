@@ -11,16 +11,31 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # Inherit from mojito device
 $(call inherit-product, device/xiaomi/mojito/device.mk)
 
-# Inherit some common Lineage stuff
+# Inherit some common AncientOS
+TARGET_USES_AOSP_RECOVERY := true
 TARGET_BOOT_ANIMATION_RES := 1080
-TARGET_INCLUDE_LIVE_WALLPAPERS := false
-$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+USE_PIXEL_CHARGING := true
+ANCIENT_OFFICIAL := true
+ANCIENT_GAPPS := true
+TARGET_GAPPS_ARCH := arm64
+IS_PHONE := true
+
+# Use Background Blur
+TARGET_USES_BLUR := true
+
+$(call inherit-product, vendor/ancient/config/common_full_phone.mk)
 
 # Device identifier. This must come after all inclusions.
-PRODUCT_NAME := lineage_mojito
+PRODUCT_NAME := ancient_mojito
 PRODUCT_DEVICE := mojito
 PRODUCT_BRAND := Redmi
 PRODUCT_MODEL := Redmi Note 10
 PRODUCT_MANUFACTURER := Xiaomi
 
 PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
+
+BUILD_FINGERPRINT := google/redfin/redfin:11/RQ3A.210805.001.A1/7474174:user/release-keys
+
+PRODUCT_BUILD_PROP_OVERRIDES += \
+    PRODUCT_NAME=mojito \
+    PRIVATE_BUILD_DESC="redfin-user 11 RQ3A.210805.001.A1 7474174 release-keys"

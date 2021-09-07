@@ -108,7 +108,7 @@ TARGET_RECOVERY_DEVICE_MODULES := libinit_mojito
 # HIDL
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
     $(DEVICE_PATH)/configs/hidl/framework_compatibility_matrix.xml \
-    vendor/lineage/config/device_framework_matrix.xml
+    $(DEVICE_PATH)/manifest.xml
 DEVICE_MANIFEST_FILE += \
     $(DEVICE_PATH)/configs/hidl/manifest.xml \
     hardware/qcom-caf/sm8150/media/conf_files/sm6150/c2_manifest.xml
@@ -136,9 +136,8 @@ BOARD_KERNEL_CMDLINE += swiotlb=1
 BOARD_KERNEL_CMDLINE += msm_rtb.filter=0x237
 BOARD_KERNEL_CMDLINE += video=vfb:640x400,bpp=32,memsize=3072000
 
-KERNEL_LD := LD=ld.lld
 KERNEL_TOOLCHAIN := $(shell pwd)/prebuilts/clang/host/linux-x86/clang-proton/bin
-TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-gnu-
+TARGET_KERNEL_ADDITIONAL_FLAGS := LD=ld.lld AS=llvm-as AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip
 TARGET_KERNEL_CLANG_VERSION := proton
 TARGET_KERNEL_CLANG_COMPILE := true
 TARGET_KERNEL_CONFIG := mojito_defconfig
@@ -170,13 +169,7 @@ BOARD_SUPER_PARTITION_SIZE := 9126805504
 BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := product system system_ext vendor
 BOARD_QTI_DYNAMIC_PARTITIONS_SIZE := 4561305600 # ( BOARD_SUPER_PARTITION_SIZE / 2 - 4MB )
 
-ifneq ($(WITH_GMS),true)
-BOARD_SYSTEMIMAGE_EXTFS_INODE_COUNT := -1
 BOARD_SYSTEMIMAGE_PARTITION_RESERVED_SIZE := 419430400
-endif
-BOARD_PRODUCTIMAGE_PARTITION_RESERVED_SIZE := 419430400
-BOARD_SYSTEMIMAGE_PARTITION_RESERVED_SIZE := 419430400
-BOARD_SYSTEM_EXTIMAGE_PARTITION_RESERVED_SIZE := 419430400
 
 TARGET_COPY_OUT_PRODUCT := product
 TARGET_COPY_OUT_SYSTEM_EXT := system_ext
